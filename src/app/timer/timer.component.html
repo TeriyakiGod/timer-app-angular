@@ -1,18 +1,90 @@
 <div class="timer">
   <h1>Timer</h1>
   <div>
-    <button class="timer-button" [disabled]="running" (click)="modifyTimer(-10 * 60)">-10m</button>
-    <button class="timer-button" [disabled]="running" (click)="modifyTimer(-1 * 60)">-1m</button>
-    <button class="timer-button" [disabled]="running" (click)="modifyTimer(-10)">-10s</button>
-    <button class="timer-button" [disabled]="running" (click)="modifyTimer(-1)">-1s</button>
-    <p>{{ timerString }}</p>
-    <button class="timer-button" [disabled]="running" (click)="modifyTimer(10 * 60)">+10m</button>
-    <button class="timer-button" [disabled]="running" (click)="modifyTimer(1 * 60)">+1m</button>
-    <button class="timer-button" [disabled]="running" (click)="modifyTimer(10)">+10s</button>
-    <button class="timer-button" [disabled]="running" (click)="modifyTimer(1)">+1s</button>
-    <hr>
-    <button class="timer-button" [disabled]="running || timer == 0" (click)="start()">Start</button>
-    <button class="timer-button" [disabled]="!running || timer == 0" (click)="pause()">Pause</button>
-    <button class="timer-button" [disabled]="!running" (click)="reset()">Reset</button>
+    <div class="timer-button-row">
+      <!-- TODO: Simplify the buttons -->
+      <button
+        class="timer-button"
+        [disabled]="timer.running"
+        (click)="timer.modify(-10 * 60)"
+      >
+        -10m
+      </button>
+      <button
+        class="timer-button"
+        [disabled]="timer.running"
+        (click)="timer.modify(-1 * 60)"
+      >
+        -1m
+      </button>
+      <button
+        class="timer-button"
+        [disabled]="timer.running"
+        (click)="timer.modify(-10)"
+      >
+        -10s
+      </button>
+      <button
+        class="timer-button"
+        [disabled]="timer.running"
+        (click)="timer.modify(-1)"
+      >
+        -1s
+      </button>
+    </div>
+    <p class="time">{{ timer.timeString }}</p>
+    <div class="timer-button-row">
+      <button
+        class="timer-button"
+        [disabled]="timer.running"
+        (click)="timer.modify(10 * 60)"
+      >
+        +10m
+      </button>
+      <button
+        class="timer-button"
+        [disabled]="timer.running"
+        (click)="timer.modify(1 * 60)"
+      >
+        +1m
+      </button>
+      <button
+        class="timer-button"
+        [disabled]="timer.running"
+        (click)="timer.modify(10)"
+      >
+        +10s
+      </button>
+      <button
+        class="timer-button"
+        [disabled]="timer.running"
+        (click)="timer.modify(1)"
+      >
+        +1s
+      </button>
+    </div>
+    <div class="timer-button-row">
+      <button
+        class="timer-button"
+        [disabled]="timer.running || timer.time == 0"
+        (click)="timer.start()"
+      >
+        Start
+      </button>
+      <button
+        class="timer-button"
+        [disabled]="!timer.running || timer.time == 0"
+        (click)="timer.stop()"
+      >
+        Stop
+      </button>
+      <button
+        class="timer-button"
+        [disabled]="!timer.running"
+        (click)="timer.reset()"
+      >
+        Reset
+      </button>
+    </div>
   </div>
 </div>

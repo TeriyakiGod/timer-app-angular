@@ -1,47 +1,40 @@
 import { Component } from '@angular/core';
-import { delay } from 'rxjs';
 
-@Component({
-  selector: 'app-timer',
-  imports: [],
-  templateUrl: './timer.component.html',
-  styleUrl: './timer.component.css',
-})
-export class TimerComponent {
-  timer = 0;
-  timerString = '0 seconds.';
+export class Timer {
+  time = 0;
+  timeString = '00:00';
   running = false;
   interval: ReturnType<typeof setInterval> | undefined;
   beeper: ReturnType<typeof setInterval> | undefined;
-  modifyTimer(seconds: number) {
-    this.timer += seconds;
-    if (this.timer < 0) this.timer = 0;
-    this.timerToString(this.timer);
+  modify(seconds: number) {
+    this.time += seconds;
+    if (this.time < 0) this.time = 0;
+    this.toString(this.time);
   }
-  timerToString(seconds: number) {
+  toString(seconds: number) {
     let result = '';
     if (seconds >= 60) {
       const div = Math.floor(seconds / 60);
       const mod = seconds % 60;
-      result += div + ' minutes, ' + mod + ' seconds.';
+      result += (div < 10 ? '0' : '') + div + (mod < 10 ? ':0' : ':') + mod;
     } else {
-      result += seconds + ' seconds.';
+      result += '00:' + (seconds < 10 ? '0' : '') + seconds;
     }
-    this.timerString = result;
+    this.timeString = result;
   }
   // Simple timer implementation, think about improvements.
-  updateTimer = () => {
-    this.modifyTimer(-1);
-    if (this.timer <= 0) {
+  run = () => {
+    this.modify(-1);
+    if (this.time <= 0) {
       clearInterval(this.interval);
       this.alarm();
     }
   };
   start() {
     this.running = true;
-    this.interval = setInterval(this.updateTimer, 1000);
+    this.interval = setInterval(this.run, 1000);
   }
-  pause() {
+  stop() {
     this.running = false;
     clearInterval(this.interval);
   }
@@ -49,7 +42,7 @@ export class TimerComponent {
     this.running = false;
     clearInterval(this.interval);
     clearInterval(this.beeper);
-    this.modifyTimer(-this.timer);
+    this.modify(-this.time);
   }
   beep(audio: AudioContext) {
     const oscillator = audio.createOscillator();
@@ -63,4 +56,14 @@ export class TimerComponent {
     let audio = new AudioContext();
     this.beeper = setInterval(this.beep, 400, audio);
   }
+}
+
+@Component({
+  selector: 'app-timer',
+  imports: [],
+  templateUrl: './timer.component.html',
+  styleUrl: './timer.component.css',
+})
+export class TimerComponent {
+  timer = new Timer()
 }

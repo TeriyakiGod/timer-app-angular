@@ -1,0 +1,21 @@
+header{
+  background-color: forestgreen;
+  margin-bottom: 50px;
+}
+
+nav{
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+}
+
+a{
+  padding: 10px;
+  text-decoration: none;
+  color: white;
+  font-size: xx-large;
+}
+
+a:hover{
+  color: black;
+}
